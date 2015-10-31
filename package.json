@@ -1,6 +1,6 @@
 {
-  "title": "Region-Screenshooter for Selenium Firefox Driver",
-  "name": "fx-driver-screenshooter",
+  "title": "Screenshot helper for Selenium Firefox Driver",
+  "name": "fx-driver-screenshot-helper",
   "version": "0.0.2",
   "description": "Take screenshots of window regions",
   "main": "main.js",

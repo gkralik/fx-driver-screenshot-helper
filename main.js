@@ -4,6 +4,18 @@ var tabs = require("sdk/tabs");
 var tabUtils = require('sdk/tabs/utils');
 
 function grabScreenshot(offsetX, offsetY, height, width) {
+    // TODO should probably assume some defaults
+    /*
+    var width = documentElement.scrollWidth;
+      if (document.body && document.body.scrollWidth > width) {
+        width = document.body.scrollWidth;
+      }
+      var height = documentElement.scrollHeight;
+      if (document.body && document.body.scrollHeight > height) {
+        height = document.body.scrollHeight;
+      }
+    */
+    
     var window = windowUtils.getMostRecentBrowserWindow();
     var activeTab = tabUtils.getActiveTab(window);
     var contentWindow = activeTab.linkedBrowser.contentWindow;
