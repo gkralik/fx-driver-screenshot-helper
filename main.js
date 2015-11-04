@@ -3,24 +3,26 @@ var windowUtils = require('sdk/window/utils');
 var tabs = require("sdk/tabs");
 var tabUtils = require('sdk/tabs/utils');
 
+/**
+ * Grab a screenshot of the browser window.
+ *
+ * @param int offsetX X offset
+ * @param int offsetY Y offset
+ * @param int height  Height of screenshot area
+ * @param int width   Width of screenshot area
+ *
+ * @throws Error if taking the screenshot failed.
+ *
+ * @return string Base64-encoded PNG image
+ */
 function grabScreenshot(offsetX, offsetY, height, width) {
-    // TODO should probably assume some defaults
-    /*
-    var width = documentElement.scrollWidth;
-      if (document.body && document.body.scrollWidth > width) {
-        width = document.body.scrollWidth;
-      }
-      var height = documentElement.scrollHeight;
-      if (document.body && document.body.scrollHeight > height) {
-        height = document.body.scrollHeight;
-      }
-    */
-    
     var window = windowUtils.getMostRecentBrowserWindow();
     var activeTab = tabUtils.getActiveTab(window);
     var contentWindow = activeTab.linkedBrowser.contentWindow;
 
-    canvas = window.document.createElementNS('http://www.w3.org/1999/xhtml', 'canvas');
+    canvas = window.document.createElementNS(
+        'http://www.w3.org/1999/xhtml', 'canvas'
+    );
     canvas.width = width;
     canvas.height = height;
 
@@ -54,6 +56,14 @@ function grabScreenshot(offsetX, offsetY, height, width) {
     }
 }
 
+/*
+ * Attach the data/exports.js content script to all new tabs.
+ *
+ * Listens for a 'take-screenshot' message on the port. If it receives
+ * one, calls grabScreenshot() with the arguments from the message and
+ * emits a screenshot-data message with the screenshot data from
+ * grabScreenshot() as argument.
+ */
 tabs.on('ready', function(tab) {
     var worker = tab.attach({
         contentScriptFile: self.data.url("exports.js")
